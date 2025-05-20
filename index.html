@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IPS QR Generator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 400px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    label, input {
+      display: block;
+      margin-bottom: 1rem;
+      width: 100%;
+    }
+    button {
+      width: 100%;
+      padding: 0.5rem;
+    }
+    img {
+      margin-top: 1rem;
+      display: block;
+      width: 200px;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <h1>IPS QR Generator</h1>
+
+  <label>
+    Iznos (RSD):
+    <input type="number" id="iznos" value="36000" />
+  </label>
+
+  <label>
+    Broj računa:
+    <input type="text" id="br_racuna" placeholder="Unesite broj računa" />
+  </label>
+
+  <button onclick="generateQR()">Generiši QR kod</button>
+
+  <img id="qr" src="" alt="IPS QR Code" style="display:none;" />
+
+  <script>
+    function generateQR() {
+      const iznos = document.getElementById('iznos').value.trim() || '36000';
+      const brRacuna = document.getElementById('br_racuna').value.trim();
+
+      if (!brRacuna) {
+        alert('Molimo unesite broj računa.');
+        return;
+      }
+
+      const payload = `K:PR|V:01|C:1|R:205000000025390032|N:Raspevana kuća|I:RSD${iznos}|SF:289|S:${brRacuna}`;
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(payload)}`;
+
+      const qrImg = document.getElementById('qr');
+      qrImg.src = qrUrl;
+      qrImg.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
