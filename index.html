@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>IPS QR Generator</title>
+  <title>Raspevana Kuća IPS QR Generator</title>
   <style>
     body {
       font-family: sans-serif;
@@ -16,9 +16,14 @@
       margin-bottom: 1rem;
       width: 100%;
     }
+    input {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
     button {
       width: 100%;
-      padding: 0.5rem;
+      padding: 0.7rem;
+      font-size: 1rem;
     }
     img {
       margin-top: 1rem;
@@ -29,11 +34,11 @@
   </style>
 </head>
 <body>
-  <h1>IPS QR Generator</h1>
+  <h1>Raspevana Kuća<br />IPS QR Generator</h1>
 
   <label>
-    Iznos (RSD):
-    <input type="number" id="iznos" value="36000" />
+    Iznos (npr. 36000,00 RSD):
+    <input type="text" id="iznos" value="36000,00" placeholder="36000,00" />
   </label>
 
   <label>
@@ -46,9 +51,19 @@
   <img id="qr" src="" alt="IPS QR Code" style="display:none;" />
 
   <script>
+    function validateIznosFormat(value) {
+      // Match e.g. 36000,00 or 100,50
+      return /^[0-9]+,[0-9]{2}$/.test(value);
+    }
+
     function generateQR() {
-      const iznos = document.getElementById('iznos').value.trim() || '36000';
+      const iznos = document.getElementById('iznos').value.trim();
       const brRacuna = document.getElementById('br_racuna').value.trim();
+
+      if (!validateIznosFormat(iznos)) {
+        alert('Unesite iznos u formatu npr. 36000,00 (brojevi sa dve decimale, razdvojene zarezom).');
+        return;
+      }
 
       if (!brRacuna) {
         alert('Molimo unesite broj računa.');
