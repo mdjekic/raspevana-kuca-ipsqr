@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Raspevana Kuća IPS QR Generator</title>
+  <title>Raspevana Kuća IPSQR Gen</title>
   <style>
     body {
       font-family: sans-serif;
@@ -43,10 +43,10 @@
 
   <label>
     Broj računa:
-    <input type="text" id="br_racuna" placeholder="Unesite broj računa" />
+    <input type="text" id="br_racuna" value="Račun br. ???/2025" placeholder="Unesite broj računa" />
   </label>
 
-  <button onclick="generateQR()">Generiši QR kod</button>
+  <button onclick="generateQR()">Generiši QR kod za plaćanje</button>
 
   <img id="qr" src="" alt="IPS QR Code" style="display:none;" />
 
@@ -77,6 +77,15 @@
       qrImg.src = qrUrl;
       qrImg.style.display = 'block';
     }
+
+    function setDefaultBrRacuna() {
+      const year = new Date().getFullYear();
+      const input = document.getElementById('br_racuna');
+      input.value = `Račun br. ?/${year}`;
+    }
+
+    window.onload = setDefaultBrRacuna;
+    
   </script>
 </body>
 </html>
